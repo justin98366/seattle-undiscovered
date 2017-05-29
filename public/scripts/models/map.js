@@ -1,18 +1,19 @@
 'use strict';
 
 var gmarkers = [];
-
 var map;
-var infowindow;
+// var infowindow;
+var prev_infowindow;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 47.60616, lng: -122.328111},
     zoom: 13
   });
+
   for (let i = 0; i < markers.length; i++) {
     addMarker(markers[i]);
   }
-
 }
 
 function addMarker(marker) {
@@ -31,21 +32,16 @@ function addMarker(marker) {
   });
   gmarkers.push(marker);
 
-  // Marker click listener
-  // google.maps.event.addListener(markers, 'click', (function (markers, content) {
-  //     return function () {
-  //         console.log('Gmarker 1 gets pushed');
-  //         infowindow.setContent(content);
-  //         infowindow.open(map, markers);
-  //         map.panTo(this.getPosition());
-  //         map.setZoom(15);
-  //     }
-  // })(markers, content));
   var infowindow = new google.maps.InfoWindow({
-   content: `${marker.title}
+    content: `${marker.title}
     ${marker.description}`
- });
-  marker.addListener('click', function() {
+  });
+
+  marker.addListener('click', function () {
+    if (prev_infowindow){
+      prev_infowindow.close()
+    }
+    prev_infowindow = infowindow;
     infowindow.open(map, marker);
   });
 
@@ -55,6 +51,7 @@ var filterMarkers = function (category) {
     var marker = gmarkers[i];
     // If is same category or category not picked
     if (marker.category == category || category.length === 0) {
+      prev_infowindow.close()
       marker.setVisible(true);
     }
     // Categories don't match
