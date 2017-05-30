@@ -9,6 +9,23 @@
     <link rel="stylesheet" href="styles/modules.css">
   </head>
   <body>
-    <script src="map.js"></script>
+    <h1>TEST</h1>
+    <div id ='map'>
+    </div>
+    <select id="type" onchange="filterMarkers(this.value);">
+    <option value="">Please select category</option>
+    <option value="activities">Activities</option>
+    <option value="restaurants">Restaurants</option>
+    <option value="nightlife">Nightlife</option>
+    <option value="points-of-interest">Points of Interests</option>
+</select>
+    <div id='places'>
+    </div>
+    <div id='more'>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEuwXVOudtZfocfm6sM1ENewl3CTW7vNo&libraries=places&callback=initMap"
+   async defer></script>
+   <script src="data/places-data.js"></script>
+   <script src="scripts/models/map.js"></script>
   </body>
 </html>
